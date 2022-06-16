@@ -8,6 +8,7 @@ namespace Interfaces
     public interface ICrudService<T>
     {
         Task<T> Create(T model);
+        Task<IEnumerable<Guid>> Create(IEnumerable<T> models);
         Task<T> Delete(Guid id);
         Task<T> Update(Guid id, T model);
         Task<T> GetById(Guid id);

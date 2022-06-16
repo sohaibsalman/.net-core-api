@@ -37,6 +37,14 @@ namespace Api.Controllers
             return Created("Student", student);
         }
 
+        [Route("BatchCreate")]
+        [HttpPost]
+        public async Task<IActionResult> BatchCreate(IEnumerable<Student> students)
+        {
+            var ids = await _crudService.Create(students);
+            return Created("Student", ids);
+        }
+
         [HttpPut("{id}")]
         public async Task<Student> Update(Guid id, Student student)
         {

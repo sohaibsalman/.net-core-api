@@ -38,6 +38,21 @@ namespace Services
             throw new Exception("Could not create the student");
         }
 
+        // To create multiple student records
+        public async Task<IEnumerable<Guid>> Create(IEnumerable<Student> students)
+        {
+            await this._context.Instance.AddRangeAsync(students);
+            var sucess = await this._context.Instance.SaveChangesAsync() > 0;
+
+            if(sucess)
+            {
+                List<Guid> ids = students.Select(x => x.Id).ToList();
+                return ids;
+            }
+
+            throw new Exception("Error saving multiple students");
+        }
+
         // To update existing student record
         public async Task<Student> Update(Guid id, Student student)
         {
