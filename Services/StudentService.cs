@@ -30,7 +30,7 @@ namespace Services
         public async Task<Student> Create(Student student)
         {
             this._context.Student.Add(student);
-            var success = await this._context.Instance.SaveChangesAsync() > 0;
+            var success = await this._context.SaveChangesAsync() > 0;
 
             if(success)
                 return student;
@@ -41,8 +41,8 @@ namespace Services
         // To create multiple student records
         public async Task<IEnumerable<Guid>> Create(IEnumerable<Student> students)
         {
-            await this._context.Instance.AddRangeAsync(students);
-            var sucess = await this._context.Instance.SaveChangesAsync() > 0;
+            await this._context.Student.AddRangeAsync(students);
+            var sucess = await this._context.SaveChangesAsync() > 0;
 
             if(sucess)
             {
@@ -65,7 +65,7 @@ namespace Services
             studentInDb.LastName = student.LastName;
             studentInDb.RollNo = student.RollNo;
 
-            var result = await this._context.Instance.SaveChangesAsync() > 0;
+            var result = await this._context.SaveChangesAsync() > 0;
             if (result)
                 return studentInDb;
 
@@ -81,7 +81,7 @@ namespace Services
                 throw new Exception($"Could not find the student with Id {id}");
 
            _context.Student.Remove(studentInDb);
-            await _context.Instance.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return studentInDb;
         }
 
