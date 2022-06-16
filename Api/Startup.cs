@@ -1,18 +1,14 @@
+using Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Models.DataContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Models;
+using Persistance;
+using Services;
 
 namespace API
 {
@@ -31,8 +27,14 @@ namespace API
 
             services.AddControllers();
 
-            // Add entity framework service via DI
+            // Add entity framework service in IOC container
             services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("SMS"));
+
+           // Add concrete class for application context that will interact with database
+            services.AddScoped<IApplicationContext, InMemoryContext>();
+
+            // Add crud service in IOC container
+            services.AddScoped<ICrudService<Student>, StudentService>();
 
             services.AddSwaggerGen(c =>
             {
