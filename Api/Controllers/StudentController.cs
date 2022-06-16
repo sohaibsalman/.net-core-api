@@ -24,6 +24,12 @@ namespace Api.Controllers
             return await _crudService.List();
         }
 
+        [HttpGet("{id}")]
+        public async Task<Student> Get(Guid id)
+        {
+            return await _crudService.GetById(id);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Student student)
         {
