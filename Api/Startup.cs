@@ -28,11 +28,12 @@ namespace API
             services.AddControllers();
 
             // Add entity framework service in IOC container
-            services.AddDbContext<SqlLiteContext>(opt => opt.UseSqlite("DataSource=mydatabase.db;"));
+            services.AddDbContext<MySqlContext>(opt => opt.UseMySQL(Configuration.GetConnectionString("MySQLConnection")));
 
             // Add concrete class for application context that will interact with database
             //services.AddScoped<IApplicationContext, InMemoryContext>();
-            services.AddScoped<IApplicationContext, SqlLiteContext>();
+            //services.AddScoped<IApplicationContext, SqlLiteContext>();
+            services.AddScoped<IApplicationContext, MySqlContext>();
 
             // Add crud service in IOC container
             services.AddScoped<ICrudService<Student>, StudentService>();
